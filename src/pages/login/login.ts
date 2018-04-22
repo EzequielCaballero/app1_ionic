@@ -17,8 +17,6 @@ export class LoginPage {
   myLoginForm:FormGroup;
   flag:boolean = false;
   usuarios:Usuario[] = [];
-  userNameInput:string = "";
-  userPassInput:number;
   emailFormat:string = '^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i';
 
   //CONSTRUCTOR
@@ -38,7 +36,7 @@ export class LoginPage {
     console.log("Validando usuario...");
     console.info(this.usuarios);
     for(let user of this.usuarios){
-      if(this.userNameInput == user.nombre && this.userPassInput == user.clave)
+      if(this.myLoginForm.value.userEmail == user.nombre && this.myLoginForm.value.userPassword == user.clave)
       {
         this.ingresar();
         this.flag = true;
@@ -46,7 +44,7 @@ export class LoginPage {
       }
     }
     if(!this.flag){
-      console.log("Inicio de sesión fallido");
+      console.log("El usuario no existe!");
       this.mostrarAlerta();
     }
   }

@@ -12,12 +12,13 @@
         </ion-col>
       </ion-row>
 
+<!-- FORMULARIO -->
       <form [formGroup]="myLoginForm" (ngSubmit)="validarUsuario()" novalidate>
         <ion-row>
           <ion-col class="top-5">
             <!-- USUARIO -->
             <ion-item>
-                <ion-input formControlName="userEmail" id="userNameTxt" type="text" placeholder="Usuario" [(ngModel)]="userNameInput"></ion-input>
+                <ion-input formControlName="userEmail" id="userNameTxt" type="text" placeholder="Usuario"></ion-input>
             </ion-item>
             <ion-item *ngIf="myLoginForm.get('userEmail').errors && myLoginForm.get('userEmail').dirty">
               <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('required')">Campo requerido</p>
@@ -25,7 +26,7 @@
             </ion-item>
             <!-- CONTRASEÑA -->
             <ion-item>
-              <ion-input formControlName="userPassword" id="userPassTxt" type="password" placeholder="Contraseña" [(ngModel)]="userPassInput"></ion-input>
+              <ion-input formControlName="userPassword" id="userPassTxt" type="password" placeholder="Contraseña"></ion-input>
             </ion-item>
             <ion-item *ngIf="myLoginForm.get('userPassword').errors && myLoginForm.get('userPassword').dirty">
               <p color="danger" ion-text *ngIf="myLoginForm.get('userPassword').hasError('required')">Campo requerido</p>
@@ -33,17 +34,28 @@
             </ion-item>
           </ion-col>
         </ion-row>
+        <!-- SUBMIT -->
+        <ion-row>
+          <ion-col class="top-5">
+            <button type="submit" ion-button color="google" icon-left block
+              [disabled]="myLoginForm.invalid">
+              <ion-icon name="md-contact"></ion-icon>
+              Ingresar
+            </button>
+          </ion-col>
+        </ion-row>
       </form>
 
-      <ion-row>
-        <ion-col class="top-5">
-          <button ion-button type="submit" color="google" icon-left block
-            [disabled]="myLoginForm.invalid">
-            <ion-icon name="md-contact"></ion-icon>
-            Ingresar
-          </button>
-        </ion-col>
-      </ion-row>
   </ion-grid>
+
+  <ion-fab left bottom>
+    <button ion-fab mini color="light"><ion-icon name="arrow-dropright"></ion-icon></button>
+    <ion-fab-list side="right">
+      <button ion-fab><ion-icon name="ios-contact"></ion-icon></button>
+      <button ion-fab><ion-icon name="ios-contacts"></ion-icon></button>
+      <button ion-fab><ion-icon name="ios-people"></ion-icon></button>
+      <button ion-fab><ion-icon name="ios-person-outline"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
 
 </ion-content>
