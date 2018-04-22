@@ -17,6 +17,8 @@ export class LoginPage {
   myLoginForm:FormGroup;
   flag:boolean = false;
   usuarios:Usuario[] = [];
+  userNameTxt:string;
+  userPassTxt:number;
   emailFormat:string = '^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i';
 
   //CONSTRUCTOR
@@ -51,6 +53,27 @@ export class LoginPage {
 
   ingresar(){
     this.navCtrl.push(HomePage);
+  }
+
+  ingresoDePrueba(user:string){
+    switch(user){
+      case 'admin':
+        this.userNameTxt = "admin@gmail.com";
+        this.userPassTxt = 11;
+        break;
+      case 'user':
+        this.userNameTxt = "usuario@gmail.com";
+        this.userPassTxt = 33;
+        break;
+      case 'invited':
+        this.userNameTxt = "invitado@gmail.com";
+        this.userPassTxt = 22;
+        break;
+      case 'tester':
+        this.userNameTxt = "tester@gmail.com";
+        this.userPassTxt = 55;
+        break;
+    }
   }
 
   mostrarAlerta(){
