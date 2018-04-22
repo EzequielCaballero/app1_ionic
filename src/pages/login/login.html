@@ -12,21 +12,33 @@
         </ion-col>
       </ion-row>
 
-      <ion-row>
-        <ion-col class="top-5">
-          <ion-item>
-              <ion-input id="userNameTxt" type="text" placeholder="Usuario" [(ngModel)]="userNameInput"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input id="userPassTxt" type="password" placeholder="Contraseña" [(ngModel)]="userPassInput"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+      <form [formGroup]="myLoginForm" (ngSubmit)="validarUsuario()" novalidate>
+        <ion-row>
+          <ion-col class="top-5">
+            <!-- USUARIO -->
+            <ion-item>
+                <ion-input formControlName="userEmail" id="userNameTxt" type="text" placeholder="Usuario" [(ngModel)]="userNameInput"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="myLoginForm.get('userEmail').errors && myLoginForm.get('userEmail').dirty">
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('required')">Campo requerido</p>
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('email')">Formato de email incorrecto</p>
+            </ion-item>
+            <!-- CONTRASEÑA -->
+            <ion-item>
+              <ion-input formControlName="userPassword" id="userPassTxt" type="password" placeholder="Contraseña" [(ngModel)]="userPassInput"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="myLoginForm.get('userPassword').errors && myLoginForm.get('userPassword').dirty">
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userPassword').hasError('required')">Campo requerido</p>
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userPassword').hasError('pattern')">Formato de password incorrecto</p>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </form>
 
       <ion-row>
         <ion-col class="top-5">
-          <button ion-button color="google" icon-left block
-            (click)="validarUsuario()">
+          <button ion-button type="submit" color="google" icon-left block
+            [disabled]="myLoginForm.invalid">
             <ion-icon name="md-contact"></ion-icon>
             Ingresar
           </button>

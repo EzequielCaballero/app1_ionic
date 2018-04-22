@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController} from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+//PAGINA
 import { HomePage } from '../home/home';
-
 //MANEJO DE DATOS
 import { USUARIOS } from "../../data/data_usuarios"; // FUENTE
 import { Usuario } from "../../interfaces/usuario_interface"; //FORMATO
@@ -13,34 +14,53 @@ import { Usuario } from "../../interfaces/usuario_interface"; //FORMATO
 export class LoginPage {
 
   //ATRIBUTOS
+  myLoginForm:FormGroup;
+  flag:boolean = false;
   usuarios:Usuario[] = [];
-  userNameInput:String = "";
-  userPassInput:Number;
+  userNameInput:string = "";
+  userPassInput:number;
+  emailFormat:string = '^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i';
 
   //CONSTRUCTOR
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController,
+              public toastCtrl: ToastController,
+              public fbLogin:FormBuilder) {
     this.usuarios = USUARIOS.slice(0);
+    this.myLoginForm = this.fbLogin.group({
+      userEmail: ['', [Validators.required, Validators.email]],
+      userPassword: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+    });
   }
 
   //METODOS
   validarUsuario(){
+    this.flag = false;
     console.log("Validando usuario...");
     console.info(this.usuarios);
     for(let user of this.usuarios){
       if(this.userNameInput == user.nombre && this.userPassInput == user.clave)
       {
         this.ingresar();
+        this.flag = true;
         break;
       }
-      else
-        console.log("Error al iniciar sesión!");
     }
-    // this.usuarios.forEach(function(){
-    // });
+    if(!this.flag){
+      console.log("Inicio de sesión fallido");
+      this.mostrarAlerta();
+    }
   }
 
   ingresar(){
     this.navCtrl.push(HomePage);
+  }
+
+  mostrarAlerta(){
+    let toast = this.toastCtrl.create({
+      message: 'Usuario y/o contraseña incorrectos!',
+      duration: 2000
+    });
+    toast.present();
   }
 
 }
