@@ -40,7 +40,7 @@ export class LoginPage {
     for(let user of this.usuarios){
       if(this.myLoginForm.value.userEmail == user.nombre && this.myLoginForm.value.userPassword == user.clave)
       {
-        this.ingresar();
+        this.ingresar(user);
         this.flag = true;
         break;
       }
@@ -51,8 +51,10 @@ export class LoginPage {
     }
   }
 
-  ingresar(){
-    this.navCtrl.push(HomePage);
+  ingresar(usuario:any){
+    this.userNameTxt = "";
+    this.userPassTxt = null;
+    this.navCtrl.push(HomePage, {'userData': usuario});
   }
 
   ingresoDePrueba(user:string){
@@ -79,7 +81,8 @@ export class LoginPage {
   mostrarAlerta(){
     let toast = this.toastCtrl.create({
       message: 'Usuario y/o contraseña incorrectos!',
-      duration: 2000
+      duration: 2000,
+      position: "top"
     });
     toast.present();
   }

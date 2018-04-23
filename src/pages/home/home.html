@@ -1,13 +1,19 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
+  <ion-navbar hideBackButton color="navBar">
+    <ion-title text-center>
       CARGA DE CREDITO
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <p>
-    BIENVENIDO!
-  </p>
+  <h3>BIENVENIDO!</h3>
+  <p> Cuenta: {{sesionUsuario.nombre}}<br>
+      Perfil: {{sesionUsuario.perfil}}<br>
+      Sexo: {{sesionUsuario.sexo}}</p>
+  <button ion-button color="google" icon-left block
+          (click)="cerrarSesion()">
+    <ion-icon name="md-contact"></ion-icon>
+    Cerrar sesión
+  </button>
 </ion-content>
