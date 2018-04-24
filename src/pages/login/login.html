@@ -21,7 +21,7 @@
                 <ion-input formControlName="userEmail" id="userNameInput" type="text" placeholder="Usuario" [(ngModel)]="userNameTxt"></ion-input>
             </ion-item>
             <ion-item *ngIf="myLoginForm.get('userEmail').errors && myLoginForm.get('userEmail').dirty">
-              <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('required')">Campo requerido</p>
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('required') ">Campo requerido</p>
               <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('email')">Formato de email incorrecto</p>
             </ion-item>
             <!-- CONTRASEÑA -->

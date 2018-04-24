@@ -22,7 +22,10 @@
   display:flex;
   align-items: center;
   justify-content: center;
-  background: rgb(26, 187, 156);
+  background: #121b1c; /* Old browsers */
+  background: -moz-linear-gradient(-45deg, #121b1c 1%, #14a07b 57%, #87d1c2 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, #121b1c 1%,#14a07b 57%,#87d1c2 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #121b1c 1%,#14a07b 57%,#87d1c2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 .sk-folding-cube {
