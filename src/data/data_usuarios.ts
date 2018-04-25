@@ -3,35 +3,35 @@ export const USUARIOS = [
       {
         id:1,
         nombre:"admin@gmail.com",
-        clave:11,
+        clave:"admin11",
         perfil:"admin",
         sexo:"femenino"
       },
       {
         id:2,
         nombre:"invitado@gmail.com",
-        clave:22,
+        clave:"invitado22",
         perfil:"invitado",
         sexo:"femenino"
       },
       {
         id:3,
         nombre:"usuario@gmail.com",
-        clave:33,
+        clave:"user33",
         perfil:"usuario",
         sexo:"masculino"
       },
       {
         id:4,
         nombre:"anonimo@gmail.com",
-        clave:44,
+        clave:"user44",
         perfil:"usuario",
         sexo:"masculino"
       },
       {
         id:5,
         nombre:"tester@gmail.com",
-        clave:55,
+        clave:"tester55",
         perfil:"tester",
         sexo:"femenino"
       }

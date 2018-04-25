@@ -6,6 +6,11 @@ import { HomePage } from '../home/home';
 //MANEJO DE DATOS
 import { USUARIOS } from "../../data/data_usuarios"; // FUENTE
 import { Usuario } from "../../interfaces/usuario_interface"; //FORMATO
+//FIREBASE
+import { AngularFireAuth} from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+import{ Observable } from 'rxjs/Observable';
+
 
 @Component({
   selector: 'page-login',
@@ -14,25 +19,28 @@ import { Usuario } from "../../interfaces/usuario_interface"; //FORMATO
 export class LoginPage {
 
   //ATRIBUTOS
+  user: Observable<firebase.User>;
   myLoginForm:FormGroup;
   flag:boolean = false;
   focus1:boolean = false;
   focus2:boolean = false;
   usuarios:Usuario[] = [];
   userNameTxt:string;
-  userPassTxt:number;
+  userPassTxt:string;
   emailFormat:string = '^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i';
   audio = new Audio();
   //CONSTRUCTOR
   constructor(public navCtrl: NavController,
               public toastCtrl: ToastController,
-              public fbLogin:FormBuilder) {
-    this.userNameTxt = "";
-    this.userPassTxt = null;
-    this.usuarios = USUARIOS.slice(0);
-    this.myLoginForm = this.fbLogin.group({
-      userEmail: ['', [Validators.required, Validators.email]],
-      userPassword: ['', [Validators.required]],
+              public fbLogin:FormBuilder,
+              public afAuth:AngularFireAuth) {
+        this.user = afAuth.authState;
+        this.userNameTxt = "";
+        this.userPassTxt = null;
+        this.usuarios = USUARIOS.slice(0);
+        this.myLoginForm = this.fbLogin.group({
+          userEmail: ['', [Validators.required, Validators.email]],
+          userPassword: ['', [Validators.required]],
     });
   }
 
@@ -65,14 +73,30 @@ export class LoginPage {
     }
   }
 
-  validarUsuario(){
+  validarUsuarioAuth(){
+    this.afAuth
+      .auth
+      .signInWithEmailAndPassword(this.myLoginForm.value.userEmail, this.myLoginForm.value.userPassword)
+      .then(value => {
+        console.log('Funciona!' + JSON.stringify(value));
+        this.ingresar();
+        //this.ingresar(value);
+      })
+      .catch(err => {
+        console.log('Algo salió mal: ',err.message);
+        this.reproducirSonido();
+        this.mostrarAlerta();
+      });
+  }
+
+  validarUsuarioManual(){
     this.flag = false;
     console.log("Validando usuario...");
     console.info(this.usuarios);
     for(let user of this.usuarios){
       if(this.myLoginForm.value.userEmail == user.nombre && this.myLoginForm.value.userPassword == user.clave)
       {
-        this.ingresar(user);
+        //this.ingresar(user);
         this.flag = true;
         break;
       }
@@ -84,27 +108,31 @@ export class LoginPage {
     }
   }
 
-  ingresar(usuario:any){
-    this.navCtrl.push(HomePage, {'userData': usuario});
+  ingresar(){
+    this.navCtrl.push(HomePage);
   }
+
+  // ingresar(usuario:any){
+  //   this.navCtrl.push(HomePage, {'userData': usuario});
+  // }
 
   ingresoDePrueba(user:string){
     switch(user){
       case 'admin':
         this.userNameTxt = "admin@gmail.com";
-        this.userPassTxt = 11;
+        this.userPassTxt = "admin11";
         break;
       case 'user':
         this.userNameTxt = "usuario@gmail.com";
-        this.userPassTxt = 33;
+        this.userPassTxt = "user33";
         break;
       case 'invited':
         this.userNameTxt = "invitado@gmail.com";
-        this.userPassTxt = 22;
+        this.userPassTxt = "invitado22";
         break;
       case 'tester':
         this.userNameTxt = "tester@gmail.com";
-        this.userPassTxt = 55;
+        this.userPassTxt = "tester55";
         break;
     }
   }
