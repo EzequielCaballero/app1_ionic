@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 //PAGINA
-import { HomePage } from '../home/home';
+import { TabsPage } from '../indexPaginas';
 //MANEJO DE DATOS
 import { USUARIOS } from "../../data/data_usuarios"; // FUENTE
 import { Usuario } from "../../interfaces/usuario_interface"; //FORMATO
@@ -19,7 +19,9 @@ import{ Observable } from 'rxjs/Observable';
 export class LoginPage {
 
   //ATRIBUTOS
+  perfil:string = "";
   user: Observable<firebase.User>;
+  userActive:any;
   myLoginForm:FormGroup;
   flag:boolean = false;
   focus1:boolean = false;
@@ -27,7 +29,7 @@ export class LoginPage {
   usuarios:Usuario[] = [];
   userNameTxt:string;
   userPassTxt:string;
-  emailFormat:string = '^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i';
+  //emailFormat:string = '^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i';
   audio = new Audio();
   //CONSTRUCTOR
   constructor(public navCtrl: NavController,
@@ -35,6 +37,7 @@ export class LoginPage {
               public fbLogin:FormBuilder,
               public afAuth:AngularFireAuth) {
         this.user = afAuth.authState;
+        console.log("Sesion activa?: " + this.afAuth.auth.currentUser);
         this.userNameTxt = "";
         this.userPassTxt = null;
         this.usuarios = USUARIOS.slice(0);
@@ -79,7 +82,19 @@ export class LoginPage {
       .signInWithEmailAndPassword(this.myLoginForm.value.userEmail, this.myLoginForm.value.userPassword)
       .then(value => {
         console.log('Funciona!' + JSON.stringify(value));
-        this.ingresar();
+        switch(this.afAuth.auth.currentUser.uid)
+        {
+          case "d5QVvgrkynelZ8yNwTJbfJPtVyG3": this.perfil = "Administrador";
+          break;
+          case "5u8IpyerwnUbm8K5d8V5JYepL5I2":
+          case "wII4NqdqNOdwFhry4O3OMggWf233": this.perfil = "Usuario";
+          break;
+          case "TDyY8lFNl4afB6x1hnCNxOUEzdo2": this.perfil = "Invitado";
+          break;
+          case "uWMrapFjxRSUXs6RGcedT7squG73": this.perfil = "Tester";
+          break;
+        }
+          this.ingresar();
         //this.ingresar(value);
       })
       .catch(err => {
@@ -109,7 +124,18 @@ export class LoginPage {
   }
 
   ingresar(){
-    this.navCtrl.push(HomePage);
+    this.userActive = firebase.auth().currentUser;
+    this.userActive.updateProfile({
+      displayName: this.perfil,
+      //photoURL: "https://example.com/jane-q-user/profile.jpg"
+    }).then(value => {
+      // Update successful.
+      this.navCtrl.push(TabsPage);
+    })
+    .catch(err => {
+      console.log('Algo salió mal: ',err.message);
+      this.reproducirSonido();
+    });
   }
 
   // ingresar(usuario:any){

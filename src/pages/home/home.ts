@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { LoginPage } from '../../pages/login/login';
+import { NavController, NavParams, App } from 'ionic-angular';
+import { LoginPage, TabsPage } from '../indexPaginas';
 //FIREBASE
 import { AngularFireAuth} from 'angularfire2/auth';
 import{ Observable } from 'rxjs/Observable';
@@ -11,14 +11,13 @@ import{ Observable } from 'rxjs/Observable';
 })
 export class HomePage {
 
-  userEmail:string = this.afAuth.auth.currentUser.email;
+  userEmail:string = this.afAuth.auth.currentUser.displayName;
   audio = new Audio();
-  //sesionUsuario:any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public afAuth:AngularFireAuth) {
-
+              public afAuth:AngularFireAuth,
+              public _app:App) {
           console.log(this.userEmail);
           this.reproducirSonido();
 
@@ -34,8 +33,6 @@ export class HomePage {
     this.afAuth
       .auth
       .signOut();
-      
-    this.navCtrl.push(LoginPage);
+      this._app.getRootNav().setRoot(LoginPage); // IMPORTANT!
   }
-
 }

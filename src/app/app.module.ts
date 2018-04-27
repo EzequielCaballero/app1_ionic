@@ -4,10 +4,9 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { FormsModule } from '@angular/forms'
-//PAGES
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { LoginPage } from '../pages/login/login';
+//PAGES
+import { LoginPage, TabsPage, HomePage, HistorialPage  } from '../pages/indexPaginas';
 //FIREBASE
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
@@ -26,7 +25,9 @@ export const firebaseConfig = {
   declarations: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    TabsPage,
+    HistorialPage
   ],
   imports: [
     BrowserModule,
@@ -48,7 +49,9 @@ export const firebaseConfig = {
   entryComponents: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    TabsPage,
+    HistorialPage
   ],
   providers: [
     StatusBar,
