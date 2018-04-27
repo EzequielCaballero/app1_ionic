@@ -3,15 +3,24 @@
     <ion-title text-center>
       CARGA DE CREDITO
     </ion-title>
+      <ion-buttons right>
+        <button ion-button color="danger" icon-right
+                (click)="cerrarSesion()">
+          <ion-icon name="md-contact"></ion-icon>
+          Salir
+        </button>
+      </ion-buttons>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <h3>BIENVENIDO!</h3>
   <p> Perfil: {{userEmail}}</p>
-  <button ion-button color="google" icon-left block
-          (click)="cerrarSesion()">
-    <ion-icon name="md-contact"></ion-icon>
-    Cerrar sesión
+
+  <button ion-button color="navBar" icon-left block
+          (click)="scannStart()">
+    <ion-icon name="md-qr-scanner"></ion-icon>
+    Iniciar escaner
   </button>
 </ion-content>

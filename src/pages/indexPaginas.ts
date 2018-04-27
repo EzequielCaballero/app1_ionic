@@ -4,3 +4,4 @@ export { LoginPage } from "./login/login";
 export { HomePage } from "./home/home";
 export { HistorialPage } from "./historial/historial";
 export { TabsPage } from "./tabs/tabs";
+export { MensajePage } from "./mensaje/mensaje";

@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title text-center>NOTIFICACION</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <h2 ion-text>{{mensajeRecibido}}</h2>
+    <button ion-button color="navBar" icon-left block
+            (click)="cerrarModal()">
+      <ion-icon name="md-bug"></ion-icon>
+      Aceptar
+    </button>
+</ion-content>
