@@ -1,25 +1,34 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+//SERVICIOS
+import { HistorialService } from '../../providers/historial/historial';
 
-/**
- * Generated class for the HistorialPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-historial',
   templateUrl: 'historial.html',
 })
 export class HistorialPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  historialTotal:any[] = [];
+  registros:boolean = false;
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private _historialService: HistorialService) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad HistorialPage');
-  }
+  ionViewDidEnter() {
+    this.historialTotal = [];
+    if(this._historialService.cargar_historial().length > 0){
+      for (let i = 0; i < this._historialService.cargar_historial().length; i++) {
+          this.historialTotal.push(this._historialService.cargar_historial()[i]);
+      }
+      this.registros = true;
+    }else{
+      this.historialTotal[0] = "No hay registros";
+      this.registros = false;
+    }
 
+    console.log("Historial hasta el momento: " + JSON.stringify(this.historialTotal));
+  }
 }

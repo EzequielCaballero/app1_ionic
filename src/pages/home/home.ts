@@ -22,7 +22,9 @@ export class HomePage {
   codeData:CodigoQR[] = [];
   userEmail:string = this.afAuth.auth.currentUser.displayName;
   audio = new Audio();
-  counter:number = 1;
+  credito:number = 0;
+  codigoLeido:any;
+  flag:boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -41,13 +43,13 @@ export class HomePage {
           //LECTURA DE CODIGOS QR
           this.afDB.list('/codigoQR').valueChanges().subscribe(
             (data:any) => {
-                console.log(data)
+                //console.log(data)
                 for (let i = 0; i < data.length; i++) {
                     this.codeData.push(data[i]);
                 }
-                console.log(this.codeData[0]);
+                console.log("DATA: " + JSON.stringify(this.codeData));
             },
-            err => console.log(err)
+            err => console.log(JSON.stringify(err))
           );
 
   }
@@ -62,37 +64,39 @@ export class HomePage {
     this.afAuth
       .auth
       .signOut();
+      this._historialService.limpiar_historial();
       this._app.getRootNav().setRoot(LoginPage); // IMPORTANT!
   }
 
   scannStart(){
-
+    //Validación para el navegador web (probar servicio)
     if(!this.platform.is('cordova')){
-      this._historialService.agregar_historial("http://google.com");
-      //return;
+      this._historialService.agregar_historial("Indefinido", "Mensaje");
+      return;
     }
 
     this.barcodeScanner.scan().then((result) => {
       //Detalle de lo escaneado:
+      console.log("DETALLE DE LO ESCANEADO:");
       console.log("Result: " + result.text + "\n"); //!!!
       console.log("Format: " + result.format + "\n");
       console.log("Cancelled: " + result.cancelled);
 
       if( !result.cancelled && result.text != null){
-        for(let code of this.codeData){
-          if(code.codigo == result.text){
-            this._historialService.agregar_historial(result.text);
-            this.mostrarModalMensaje("Crédito cargado: " + code.cantidad);
-            break;
-          }
-          this.counter++;
-        }
-        if(this.counter == 3)
-          this.mostrarModalMensaje("Código desconocido!");
-      }
+          if(this.validarCodigo(result.text)){
+            if(this.validarHistorial(result.text)){
+              this._historialService.agregar_historial(result.text, "Crédito cargado: " + this.credito);
+              this.mostrarModalMensaje("Crédito cargado: " + this.credito);//Existe el código y no fue cargado aún
+              console.log("Codigo cargado: " + result.text);
+            }else
+              this.mostrarModalMensaje("El monto: " + this.credito + ", ya fue acreditado!");//Existe el código y YA fue cargado
+          }else
+            this.mostrarModalMensaje("Código desconocido!");//No existe el código
+
+      }//FIN de la validación general
 
     }).catch(err => {
-        console.log('Error', err);
+        console.log('Error', JSON.stringify(err));
         this.mostrarAlerta("X%$ - Error al escanear!");
     });
   }
@@ -108,6 +112,43 @@ export class HomePage {
 
   mostrarModalMensaje(msj:string){
     this.modalCtrl.create(MensajePage, {mensaje:msj}).present();
+  }
+
+  //VALIDACIONES***************************************************************
+  validarCodigo(codigoLeido:any){//Busco que exista
+    this.flag = false;
+    console.log("VALIDANDO! codigos totales: " + this.codeData.length);
+    console.log("Codigo leido: " + codigoLeido);
+    for (let i = 0; i < this.codeData.length; i++) {
+        if(codigoLeido.toString().trim() == this.codeData[i].codigo.toString().trim()){
+          this.credito = this.codeData[i].cantidad;
+          this.flag = true;
+          break;
+        }
+    }
+    // for(let code of this.codeData){
+    //   if(code.codigo == codigoLeido){
+    //     this.credito = code.cantidad;
+    //     this.flag = true;
+    //     break;
+    //   }
+    // }
+    return this.flag;
+  }
+
+  validarHistorial(codigoLeido:any){//Busco que NO exista (logica inversa)
+    this.flag = true;
+    if(this._historialService.cargar_historial().length > 0){ // Hay historial
+      for (let i = 0; i < this._historialService.cargar_historial().length; i++) {
+          if(codigoLeido == this._historialService.cargar_historial()[i].info){
+            this.flag = false;
+            break;
+          }
+      }
+    }else
+      this.flag = true; // No hay historial
+
+    return this.flag;// Hay historial y ya existe el código a cargar
   }
 
 }

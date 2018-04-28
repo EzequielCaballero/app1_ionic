@@ -8,5 +8,14 @@
 
 
 <ion-content padding>
+  <ion-list *ngIf="registros">
+		<ion-item class="text" *ngFor="let registro of historialTotal">
+			{{registro.msj}}
+		</ion-item>
+  </ion-list>
+
+    <ion-item *ngIf="!registros" class="text">
+			No hay registros cargados
+		</ion-item>
 
 </ion-content>
