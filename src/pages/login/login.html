@@ -1,6 +1,6 @@
 <ion-content padding text-center>
-
-  <ion-grid>
+  <!-- CONTENIDO PRINCIPAL -->
+  <ion-grid *ngIf="!mostrarSpinner">
       <ion-row>
         <ion-col class="top-5">
           <img src="assets/imgs/login3.png" alt="login imagen">
@@ -51,5 +51,9 @@
       </form>
 
   </ion-grid>
+
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_white.png" alt="spinner">
+  </div>
 
 </ion-content>

@@ -15,12 +15,17 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>BIENVENIDO!</h3>
-  <p> Perfil: {{userEmail}}</p>
+  <div *ngIf="!mostrarSpinner">
+    <h3>BIENVENIDO!</h3>
+    <p> Perfil: {{userEmail}}</p>
 
-  <button ion-button color="navBar" icon-left block
-          (click)="scannStart()">
-    <ion-icon name="md-qr-scanner"></ion-icon>
-    Iniciar escaner
-  </button>
+    <button ion-button color="navBar" icon-left block
+            (click)="scannStart()">
+      <ion-icon name="md-qr-scanner"></ion-icon>
+      Iniciar escaner
+    </button>
+  </div>
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
 </ion-content>

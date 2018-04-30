@@ -31,4 +31,9 @@ export class HistorialPage {
 
     console.log("Historial hasta el momento: " + JSON.stringify(this.historialTotal));
   }
+
+  limpiarHistorial(){
+    this._historialService.limpiar_historial();
+    this.registros = false;
+  }
 }

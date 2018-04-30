@@ -19,6 +19,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 })
 export class HomePage {
   //codigos:Observable<any[]>;
+  mostrarSpinner:boolean = false;
   codeData:CodigoQR[] = [];
   userEmail:string = this.afAuth.auth.currentUser.displayName;
   audio = new Audio();
@@ -41,12 +42,14 @@ export class HomePage {
           this.reproducirSonido();
 
           //LECTURA DE CODIGOS QR
+          this.mostrarSpinner = true;
           this.afDB.list('/codigoQR').valueChanges().subscribe(
             (data:any) => {
                 //console.log(data)
                 for (let i = 0; i < data.length; i++) {
                     this.codeData.push(data[i]);
                 }
+                this.mostrarSpinner = false;
                 console.log("DATA: " + JSON.stringify(this.codeData));
             },
             err => console.log(JSON.stringify(err))
@@ -75,6 +78,7 @@ export class HomePage {
       return;
     }
 
+    this.mostrarSpinner = true;
     this.barcodeScanner.scan().then((result) => {
       //Detalle de lo escaneado:
       console.log("DETALLE DE LO ESCANEADO:");
@@ -89,14 +93,15 @@ export class HomePage {
               this.mostrarModalMensaje("Crédito cargado: " + this.credito);//Existe el código y no fue cargado aún
               console.log("Codigo cargado: " + result.text);
             }else
-              this.mostrarModalMensaje("El monto: " + this.credito + ", ya fue acreditado!");//Existe el código y YA fue cargado
+              this.mostrarModalMensaje("ALERTA: Monto de: " + this.credito + " ya fue acreditado");//Existe el código y YA fue cargado
           }else
             this.mostrarModalMensaje("Código desconocido!");//No existe el código
 
       }//FIN de la validación general
-
+      this.mostrarSpinner = false;
     }).catch(err => {
         console.log('Error', JSON.stringify(err));
+        this.mostrarSpinner = false;
         this.mostrarAlerta("X%$ - Error al escanear!");
     });
   }

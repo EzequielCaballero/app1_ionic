@@ -20,6 +20,7 @@ export class LoginPage {
 
   //ATRIBUTOS
   perfil:string = "";
+  mostrarSpinner:boolean = false;
   user: Observable<firebase.User>;
   userActive:any;
   myLoginForm:FormGroup;
@@ -77,6 +78,7 @@ export class LoginPage {
   }
 
   validarUsuarioAuth(){
+    this.mostrarSpinner = true;
     this.afAuth
       .auth
       .signInWithEmailAndPassword(this.myLoginForm.value.userEmail, this.myLoginForm.value.userPassword)
@@ -94,6 +96,7 @@ export class LoginPage {
           case "uWMrapFjxRSUXs6RGcedT7squG73": this.perfil = "Tester";
           break;
         }
+          this.mostrarSpinner = false;
           this.ingresar();
         //this.ingresar(value);
       })
