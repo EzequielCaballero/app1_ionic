@@ -103,6 +103,7 @@ export class LoginPage {
       .catch(err => {
         console.log('Algo salió mal: ',err.message);
         this.reproducirSonido();
+        this.mostrarSpinner = false;
         this.mostrarAlerta();
       });
   }
