@@ -39,7 +39,7 @@ export class HomePage {
               private modalCtrl:ModalController) {
 
           console.log(this.userEmail);
-          //this.reproducirSonido();
+          this.reproducirSonido();
 
           //LECTURA DE CODIGOS QR
           this.mostrarSpinner = true;
