@@ -1,3 +1,32 @@
 page-mensaje {
 
+  .contenido{
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+    background-image: url('../assets/imgs/fondo.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .mensaje{
+    font: italic bold 12px/30px Georgia, serif;
+    padding: 20px;
+    font-size: 1.5em;
+  }
+
+  .botonAceptar{
+    margin: 50% auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid rgba(102, 32, 32, 0.96);
+  }
+
+  .botonAceptar:active{
+    box-shadow: 0 5px 0 rgba(102, 32, 32, 0.96);
+    background: #0f4e35;
+    top: 5px;
+  }
+
 }

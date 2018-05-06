@@ -1,14 +1,42 @@
 page-home {
-  .spinner {
-  width: 100px;
-  height: 100px;
-  margin: 100px auto;
-  background-color: rgba(#333333, 0);
 
-  border-radius: 100%;
-  -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
-  animation: sk-scaleout 1.0s infinite ease-in-out;
-}
+  .contenido{
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+    background-image: url('../assets/imgs/fondo.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .textContenido{
+      padding: 10px;
+  }
+
+  .botonEscaner{
+    width: 50%;
+    height: 25%;
+    margin: 0 auto;
+    border-radius: 10%;
+    border: 2px solid rgb(22, 87, 62);
+  }
+
+  .botonEscaner:active{
+    box-shadow: 0 5px 0 rgba(49, 176, 107, 0.96);
+    background: #0f4e35;
+    top: 5px;
+  }
+
+  .spinner {
+    width: 100px;
+    height: 100px;
+    margin: 100px auto;
+    background-color: rgba(#333333, 0);
+
+    border-radius: 100%;
+    -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+    animation: sk-scaleout 1.0s infinite ease-in-out;
+  }
 
 @-webkit-keyframes sk-scaleout {
   0% { -webkit-transform: scale(0) }

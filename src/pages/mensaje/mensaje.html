@@ -1,15 +1,17 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="google">
     <ion-title text-center>NOTIFICACION</ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
-    <h2 ion-text>{{mensajeRecibido}}</h2>
-    <button ion-button color="navBar" icon-left block
-            (click)="cerrarModal()">
-      <ion-icon name="ios-alert"></ion-icon>
-      Aceptar
-    </button>
+<ion-content>
+  <div class="contenido">
+      <h2 class="mensaje">{{mensajeRecibido}}</h2>
+      <button class="botonAceptar" ion-button color="navBar" icon-left block
+              (click)="cerrarModal()">
+        <ion-icon name="ios-alert"></ion-icon>
+        Entendido
+      </button>
+  </div>
 </ion-content>

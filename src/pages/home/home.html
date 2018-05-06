@@ -14,12 +14,14 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <div *ngIf="!mostrarSpinner">
-    <h3>BIENVENIDO!</h3>
-    <p> Perfil: {{userEmail}}</p>
+<ion-content>
+  <div class="contenido" *ngIf="!mostrarSpinner">
+    <div class="textContenido">
+      <h3>BIENVENIDO!</h3>
+      <p> <strong>Perfil:</strong> {{userEmail}}</p>
+    </div>
 
-    <button ion-button color="navBar" icon-left block
+    <button class="botonEscaner" ion-button color="navBar" icon-left block
             (click)="scannStart()">
       <ion-icon name="md-qr-scanner"></ion-icon>
       Iniciar escaner

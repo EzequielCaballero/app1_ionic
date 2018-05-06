@@ -39,7 +39,7 @@ export class HomePage {
               private modalCtrl:ModalController) {
 
           console.log(this.userEmail);
-          this.reproducirSonido();
+          //this.reproducirSonido();
 
           //LECTURA DE CODIGOS QR
           this.mostrarSpinner = true;
@@ -74,7 +74,7 @@ export class HomePage {
   scannStart(){
     //Validación para el navegador web (probar servicio)
     if(!this.platform.is('cordova')){
-      this._historialService.agregar_historial("Indefinido", "Mensaje");
+      this.mostrarModalMensaje("ALERTA: esto es una prueba desde el navegador");//Existe el código y YA fue cargado
       return;
     }
 
