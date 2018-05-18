@@ -58,7 +58,7 @@ export class HomePage {
   }
 
   reproducirSonido(){
-    this.audio.src = "assets/sounds/msg_notice.mp3";
+    this.audio.src = "assets/sounds/beep_power_rangers.mp3";
     this.audio.load();
     this.audio.play();
   }

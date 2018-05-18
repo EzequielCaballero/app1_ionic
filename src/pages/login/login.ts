@@ -177,7 +177,7 @@ export class LoginPage {
   }
 
   reproducirSonido(){
-    this.audio.src = "assets/sounds/windows_xp_error.mp3";
+    this.audio.src = "assets/sounds/windows_95_error.mp3";
     this.audio.load();
     this.audio.play();
   }
