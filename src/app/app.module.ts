@@ -15,6 +15,8 @@ import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/dat
 import { AngularFireAuthModule } from 'angularfire2/auth';
 //QR plugin
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+//PUBLICIDAD
+import { AdMobFree } from '@ionic-native/admob-free';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD5kqFPTff7hLEesaoi1AMLGYc-zeCB0lo",
@@ -65,7 +67,8 @@ export const firebaseConfig = {
     AngularFireDatabase,
     BarcodeScanner,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    HistorialService
+    HistorialService,
+    AdMobFree
   ]
 })
 export class AppModule {}

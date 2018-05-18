@@ -11,7 +11,8 @@ import { CodigoQR } from '../../interfaces/code_interface';
 import { HistorialService } from '../../providers/historial/historial';
 //QR plugin
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-
+//PUBLICIDAD
+import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free';
 
 @Component({
   selector: 'page-home',
@@ -36,13 +37,28 @@ export class HomePage {
               private toastCtrl: ToastController,
               private platform:Platform,
               private _historialService: HistorialService,
-              private modalCtrl:ModalController) {
+              private modalCtrl:ModalController,
+              private admobFree: AdMobFree) {
 
           console.log(this.userEmail);
           this.reproducirSonido();
+          this.mostrarSpinner = true;
+          const bannerConfig: AdMobFreeBannerConfig = {
+             // add your config here
+             // for the sake of this example we will just use the test config
+             isTesting: true,
+             autoShow: true
+          };
+          this.admobFree.banner.config(bannerConfig);
+          this.admobFree.banner.prepare()
+            .then(() => {
+              // banner Ad is ready
+              // if we set autoShow to false, then we will need to call the show method here
+            })
+            .catch(e => console.log("Prueba desde navegador: " + JSON.stringify(e)));
 
           //LECTURA DE CODIGOS QR
-          this.mostrarSpinner = true;
+
           this.afDB.list('/codigoQR').valueChanges().subscribe(
             (data:any) => {
                 //console.log(data)
@@ -54,21 +70,12 @@ export class HomePage {
             },
             err => console.log(JSON.stringify(err))
           );
-
   }
 
   reproducirSonido(){
     this.audio.src = "assets/sounds/beep_power_rangers.mp3";
     this.audio.load();
     this.audio.play();
-  }
-
-  cerrarSesion(){
-    this.afAuth
-      .auth
-      .signOut();
-      this._historialService.limpiar_historial();
-      this._app.getRootNav().setRoot(LoginPage); // IMPORTANT!
   }
 
   scannStart(){
@@ -154,6 +161,15 @@ export class HomePage {
       this.flag = true; // No hay historial
 
     return this.flag;// Hay historial y ya existe el código a cargar
+  }
+
+  cerrarSesion(){
+    this.afAuth
+      .auth
+      .signOut();
+      this._historialService.limpiar_historial();
+      this.admobFree.banner.remove();
+      this._app.getRootNav().setRoot(LoginPage); // IMPORTANT!
   }
 
 }
