@@ -54,18 +54,17 @@ export class HomePage {
             .then(() => {
               // banner Ad is ready
               // if we set autoShow to false, then we will need to call the show method here
+              this.mostrarSpinner = false;
             })
             .catch(e => console.log("Prueba desde navegador: " + JSON.stringify(e)));
 
           //LECTURA DE CODIGOS QR
-
           this.afDB.list('/codigoQR').valueChanges().subscribe(
             (data:any) => {
                 //console.log(data)
                 for (let i = 0; i < data.length; i++) {
                     this.codeData.push(data[i]);
                 }
-                this.mostrarSpinner = false;
                 console.log("DATA: " + JSON.stringify(this.codeData));
             },
             err => console.log(JSON.stringify(err))
